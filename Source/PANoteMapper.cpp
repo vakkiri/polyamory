@@ -11,18 +11,24 @@
 #include <cmath>
 #include <iostream>
 #include "PANoteMapper.h"
+#include "PAGlo.h"
 
 PANoteMapper::PANoteMapper() {
+    noteFreqs = new float[NUM_MIDI_KEYS];
     initKeyFreqs();
+}
+
+PANoteMapper::~PANoteMapper() {
+    delete [] noteFreqs;
 }
 
 void PANoteMapper::initKeyFreqs() {
     for (int i = 0; i < NUM_MIDI_KEYS; ++i)
-        noteFreqs[i] = 440 * (pow(2, (i - 69) / 12));
+        noteFreqs[i] = 440.f * ((float)pow(2.f, ((float)i - 69.f) / 12.f));
 }
 
-void PANoteMapper::setKeyFreq(unsigned int key, float freq) {
-    if (key >= NUM_MIDI_KEYS)
+void PANoteMapper::setKeyFreq(int key, float freq) {
+    if (key < 0 || key >= NUM_MIDI_KEYS)
         std::cout << "Cannot set frequency for key " << key << std::endl;
     else if (freq <= 0.f)
         std::cout << "Cannot use frequency " << freq << std::endl;
@@ -34,6 +40,11 @@ void PANoteMapper::setKeyFreqs(std::string tun_path) {
     std::cout << "Loading tun file not implemented yet.\n";
 }
 
-float PANoteMapper::getFreq(unsigned int key) {
+float PANoteMapper::getFreq(int key) {
+    if (key < 0 || key >= NUM_MIDI_KEYS) {
+        std::cout << "Cannot get frequency for key " << key << std::endl;
+        return 0.f;
+    }
+    
     return noteFreqs[key];
 }

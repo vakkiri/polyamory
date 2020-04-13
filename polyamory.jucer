@@ -2,14 +2,23 @@
 
 <JUCERPROJECT id="WsfXXO" name="polyamory" projectType="audioplug" jucerVersion="5.4.7"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              pluginManufacturer="nethead">
+              pluginManufacturer="nethead" pluginFormats="buildStandalone">
   <MAINGROUP id="koy6mU" name="polyamory">
     <GROUP id="{51553BF2-A88D-29DE-58F8-919F29E6B1AA}" name="Source">
+      <FILE id="fm28Sp" name="PAOscillator.cpp" compile="1" resource="0"
+            file="Source/PAOscillator.cpp"/>
+      <FILE id="nehMyU" name="PAOscillator.h" compile="0" resource="0" file="Source/PAOscillator.h"/>
+      <FILE id="nZI6x4" name="PAAdsr.cpp" compile="1" resource="0" file="Source/PAAdsr.cpp"/>
+      <FILE id="Z4lqIZ" name="PAAdsr.h" compile="0" resource="0" file="Source/PAAdsr.h"/>
+      <FILE id="G0Ol9S" name="PAGlo.cpp" compile="1" resource="0" file="Source/PAGlo.cpp"/>
+      <FILE id="bFm8Ia" name="PAGlo.h" compile="0" resource="0" file="Source/PAGlo.h"/>
+      <FILE id="PPMLKI" name="PAVoice.cpp" compile="1" resource="0" file="Source/PAVoice.cpp"/>
+      <FILE id="e5biPr" name="PAVoice.h" compile="0" resource="0" file="Source/PAVoice.h"/>
+      <FILE id="e7rW7i" name="BaseSound.h" compile="0" resource="0" file="Source/BaseSound.h"/>
       <FILE id="utuymp" name="PAWaveGenerator.cpp" compile="1" resource="0"
             file="Source/PAWaveGenerator.cpp"/>
       <FILE id="ePz51S" name="PAWaveGenerator.h" compile="0" resource="0"
             file="Source/PAWaveGenerator.h"/>
-      <FILE id="mRokl2" name="PADefs.h" compile="0" resource="0" file="Source/PADefs.h"/>
       <FILE id="yupNWR" name="PANoteMapper.cpp" compile="1" resource="0"
             file="Source/PANoteMapper.cpp"/>
       <FILE id="RnQdrj" name="PANoteMapper.h" compile="0" resource="0" file="Source/PANoteMapper.h"/>
@@ -64,7 +73,7 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
-    <LINUX/>
+    <LINUX buildEnabled="1"/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
 </JUCERPROJECT>

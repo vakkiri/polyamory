@@ -10,7 +10,9 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "BaseSound.h"
 #include "PAGlo.h"
+#include "PAVoice.h"
 
 //==============================================================================
 PolyamoryAudioProcessor::PolyamoryAudioProcessor()
@@ -25,10 +27,26 @@ PolyamoryAudioProcessor::PolyamoryAudioProcessor()
                        )
 #endif
 {
+    gloInit();
+    
+    synth.clearVoices();
+    
+    for (int i = 0; i < NUM_VOICES; ++i) {
+        voices.push_back(new PAVoice());
+        synth.addVoice(voices.back());
+    }
+    
+    synth.clearSounds();
+    synth.addSound(new BaseSound());
 }
 
 PolyamoryAudioProcessor::~PolyamoryAudioProcessor()
 {
+    while (!voices.empty()) {
+        delete voices.back();
+        voices.pop_back();
+    }
+    gloFinish();
 }
 
 //==============================================================================
@@ -99,6 +117,7 @@ void PolyamoryAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     gloSampleRate = (float) sampleRate;
+    synth.setCurrentPlaybackSampleRate(sampleRate);
 }
 
 void PolyamoryAudioProcessor::releaseResources()
@@ -146,18 +165,7 @@ void PolyamoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuff
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================

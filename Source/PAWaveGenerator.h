@@ -13,6 +13,5 @@
 class PAWaveGenerator {
     public:
         PAWaveGenerator();
-    private:
-        float getSample(unsigned int pos, float center, float lslope, float rslope, float curve, float noise);
+        float getSample(float pos, float center, float lslope, float rslope, float lcurve, float rcurve, float noise);
 };

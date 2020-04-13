@@ -11,6 +11,9 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <vector>
+
+class PAVoice;
 
 //==============================================================================
 /**
@@ -57,5 +60,8 @@ public:
 
 private:
     //==============================================================================
+    Synthesiser             synth;
+    std::vector<PAVoice*>   voices;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PolyamoryAudioProcessor)
 };

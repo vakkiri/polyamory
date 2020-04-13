@@ -10,16 +10,16 @@
 
 #pragma once
 
-#include "PAGlo.h"
 #include <string>
 
 class PANoteMapper {
     public:
         PANoteMapper();
-        float getFreq(unsigned int key);
-        void setKeyFreq(unsigned int key, float freq);
+        ~PANoteMapper();
+        float getFreq(int key);
+        void setKeyFreq(int key, float freq);
         void setKeyFreqs(std::string tun_path);
     private:
-        float noteFreqs[NUM_MIDI_KEYS];
+        float *noteFreqs;
         void initKeyFreqs();
 };
