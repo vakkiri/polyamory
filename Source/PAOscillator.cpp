@@ -21,13 +21,15 @@ PAOscillator::PAOscillator() {
     rcurve  = 0.f;
     center  = 0.5f;
     noise   = 0.f;
-    wavePos = 0.f;
 }
 
-void PAOscillator::update(float basefreq) {
+float PAOscillator::getUpdate(float basefreq, float wavePos) {
     wavePos += basefreq + freq; // Todo: also add pitch relative to basefreq
+    
     if (wavePos >= SAMPLE_RATE)
         wavePos -= SAMPLE_RATE;
     if (wavePos < 0)
         wavePos = 0;
+        
+    return wavePos;
 }

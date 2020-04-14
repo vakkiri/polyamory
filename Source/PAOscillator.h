@@ -31,9 +31,8 @@ class PAOscillator {
         float getLevel()        {return level;}
         float getPitch()        {return pitch;}
         float getFreq()         {return freq;}
-        float getPos()          {return wavePos;}
         
-        void update(float basefreq);
+        float getUpdate(float basefreq, float wavePos);
     private:
         float center;
         float lslope;
@@ -44,5 +43,4 @@ class PAOscillator {
         float level;
         float pitch;
         float freq;
-        float wavePos;
 };

@@ -13,6 +13,7 @@
 #include "BaseSound.h"
 #include "PAGlo.h"
 #include "PAVoice.h"
+#include "PAOscillator.h"
 
 //==============================================================================
 PolyamoryAudioProcessor::PolyamoryAudioProcessor()
@@ -30,9 +31,15 @@ PolyamoryAudioProcessor::PolyamoryAudioProcessor()
     gloInit();
     
     synth.clearVoices();
-    
+    for (int i = 0; i < NUM_OSCS; ++i)
+        oscs.push_back(new PAOscillator());
+        
     for (int i = 0; i < NUM_VOICES; ++i) {
-        voices.push_back(new PAVoice());
+        PAVoice* newVoice = new PAVoice();
+        for (int osc = 0; osc < NUM_OSCS; ++osc)
+            newVoice->addOsc(oscs[osc]);
+            
+        voices.push_back(newVoice);
         synth.addVoice(voices.back());
     }
     
@@ -193,52 +200,61 @@ void PolyamoryAudioProcessor::setStateInformation (const void* data, int sizeInB
     // whose contents will have been created by the getStateInformation() call.
 }
 
-void PolyamoryAudioProcessor::setOscFreq(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscFreq(osc, val);
+void PolyamoryAudioProcessor::setOscCenter(int osc, float val) {
+    oscs[osc]->setCenter(val);
 }
 
-void PolyamoryAudioProcessor::setOscCenter(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscCenter(osc, val);
+void PolyamoryAudioProcessor::setOscFreq(int osc, float val) {
+    oscs[osc]->setFreq(val);
 }
 
 void PolyamoryAudioProcessor::setOscPitch(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscPitch(osc, val);
+    oscs[osc]->setPitch(val);
 }
 
 void PolyamoryAudioProcessor::setOscLslope(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscLslope(osc, val);
+    oscs[osc]->setLslope(val);
 }
 
 void PolyamoryAudioProcessor::setOscRslope(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscRslope(osc, val);
+    oscs[osc]->setRslope(val);
 }
 
 void PolyamoryAudioProcessor::setOscLcurve(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscLcurve(osc, val);
+    oscs[osc]->setLcurve(val);
 }
 
 void PolyamoryAudioProcessor::setOscRcurve(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscRcurve(osc, val);
+    oscs[osc]->setRcurve(val);
 }
 
 void PolyamoryAudioProcessor::setOscLevel(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscLevel(osc, val);
+    oscs[osc]->setLevel(val);
 }
 
 void PolyamoryAudioProcessor::setOscNoise(int osc, float val) {
-    for (auto voice : voices)
-        voice->setOscNoise(osc, val);
+    oscs[osc]->setNoise(val);
 }
         
+void PolyamoryAudioProcessor::setA(float val) {
+    for (auto voice : voices)
+        voice->setADSRA(val);
+}
 
+void PolyamoryAudioProcessor::setD(float val) {
+    for (auto voice : voices)
+        voice->setADSRD(val);
+}
+
+void PolyamoryAudioProcessor::setS(float val) {
+    for (auto voice : voices)
+        voice->setADSRS(val);
+}
+
+void PolyamoryAudioProcessor::setR(float val) {
+    for (auto voice : voices)
+        voice->setADSRR(val);
+}
     
 //==============================================================================
 // This creates new instances of the plugin..

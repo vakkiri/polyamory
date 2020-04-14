@@ -14,7 +14,7 @@
 #include <vector>
 
 class PAVoice;
-class POscillator;
+class PAOscillator;
 
 //==============================================================================
 /**
@@ -69,11 +69,16 @@ public:
     void setOscRcurve(int osc, float val);
     void setOscLevel(int osc, float val);
     void setOscNoise(int osc, float val);
+    
+    void setA(float val);
+    void setD(float val);
+    void setS(float val);
+    void setR(float val);
 private:
     //==============================================================================
     Synthesiser                 synth;
     std::vector<PAVoice*>       voices;
-    //std::vector<PAOscillator*>  oscs;   // TODO: use these instead of having per voice oscs
+    std::vector<PAOscillator*>  oscs;   // TODO: use these instead of having per voice oscs
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PolyamoryAudioProcessor)
 };

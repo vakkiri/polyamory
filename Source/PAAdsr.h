@@ -25,6 +25,11 @@ class PAAdsr {
         void update();
         float val();
         bool active();
+        
+        void setA(float val) {a = val;}
+        void setD(float val) {d = val;}
+        void setS(float val) {s = val;}
+        void setR(float val) {s = val;}
     private:
         float time;
         float a, d, s, r;

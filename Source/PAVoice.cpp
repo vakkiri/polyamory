@@ -19,9 +19,7 @@ PAVoice::PAVoice() : SynthesiserVoice() {
     voiceFreq = 0;
     adsr = new PAAdsr();
     wasActive = false;
-    
-    for (int i = 0; i < NUM_OSCS; ++i)
-        oscs.push_back(new PAOscillator());
+
 }
 
 PAVoice::~PAVoice() {
@@ -65,15 +63,17 @@ void PAVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample,
         val = 0;
         
         //sum samples from each oscillator
-        for (PAOscillator* osc : oscs) {
-            oscval = waveGen->getSample(  osc->getPos(), 
-                                        osc->getCenter(), 
-                                        osc->getLslope(), 
-                                        osc->getRslope(), 
-                                        osc->getLcurve(), 
-                                        osc->getRcurve(), 
-                                        osc->getNoise());
-            oscval *= osc->getLevel();
+        for (int i = 0; i < NUM_OSCS; ++i) {
+            oscval = waveGen->getSample(    oscPositions[i], 
+                                            oscs[i]->getCenter(), 
+                                            oscs[i]->getLslope(), 
+                                            oscs[i]->getRslope(), 
+                                            oscs[i]->getLcurve(), 
+                                            oscs[i]->getRcurve(), 
+                                            oscs[i]->getNoise()
+                                       );
+                                            
+            oscval *= oscs[i]->getLevel();
             val += oscval;
         }                           
                                         
@@ -104,8 +104,8 @@ void PAVoice::perSampleUpdate() {
     if (adsr->active()) {
         adsr->update();
     
-        for (PAOscillator* osc : oscs) {
-            osc->update(voiceFreq);
+        for (int i = 0; i < oscs.size(); ++i) {
+            oscPositions[i] = oscs[i]->getUpdate(voiceFreq, oscPositions[i]);
         }
         
         wasActive = true;
@@ -115,39 +115,26 @@ void PAVoice::perSampleUpdate() {
     }
 }
 
-void PAVoice::setOscCenter(int osc, float val) {
-    oscs[osc]->setCenter(val);
+void PAVoice::addOsc(PAOscillator* osc) {
+    oscs.push_back(osc);
+    oscPositions.push_back(0.f);
 }
 
-void PAVoice::setOscFreq(int osc, float val) {
-    oscs[osc]->setFreq(val);
+void PAVoice::setADSRA(float val) {
+    adsr->setA(val);
 }
 
-void PAVoice::setOscPitch(int osc, float val) {
-    oscs[osc]->setPitch(val);
+void PAVoice::setADSRD(float val) {
+    adsr->setD(val);
 }
 
-void PAVoice::setOscLslope(int osc, float val) {
-    oscs[osc]->setLslope(val);
+
+void PAVoice::setADSRS(float val) {
+    adsr->setS(val);
 }
 
-void PAVoice::setOscRslope(int osc, float val) {
-    oscs[osc]->setRslope(val);
+
+void PAVoice::setADSRR(float val) {
+    adsr->setR(val);
 }
 
-void PAVoice::setOscLcurve(int osc, float val) {
-    oscs[osc]->setLcurve(val);
-}
-
-void PAVoice::setOscRcurve(int osc, float val) {
-    oscs[osc]->setRcurve(val);
-}
-
-void PAVoice::setOscLevel(int osc, float val) {
-    oscs[osc]->setLevel(val);
-}
-
-void PAVoice::setOscNoise(int osc, float val) {
-    oscs[osc]->setNoise(val);
-}
-        

@@ -29,6 +29,7 @@ PolyamoryAudioProcessorEditor::~PolyamoryAudioProcessorEditor()
 
 //==============================================================================
 void PolyamoryAudioProcessorEditor::initSliderPositions() {
+    // Oscillators
     for (int osc = 0; osc < NUM_OSCS; ++osc) {
         Slider* s = (Slider*) &(oscSliders[osc]);
         for (int slider = 0; slider < NUM_OSC_SLIDERS; ++slider, ++s) {
@@ -58,6 +59,31 @@ void PolyamoryAudioProcessorEditor::initSliderPositions() {
     sliderLabels[10].setText("D", dontSendNotification);
     sliderLabels[11].setText("S", dontSendNotification);
     sliderLabels[12].setText("R", dontSendNotification);
+    
+    // Master
+    aSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    aSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxBelow, false, 64.f, 16.f);
+    aSlider.setRange(0.f, 10.f, 0.001f);
+    aSlider.addListener(this);
+    addAndMakeVisible(aSlider);
+    
+    dSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    dSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxBelow, false, 64.f, 16.f);
+    dSlider.setRange(0.f, 10.f, 0.001f);
+    dSlider.addListener(this);
+    addAndMakeVisible(dSlider);
+    
+    sSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    sSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxBelow, false, 64.f, 16.f);
+    sSlider.setRange(0.f, 1.f, 0.001f);
+    sSlider.addListener(this);
+    addAndMakeVisible(sSlider);
+    
+    rSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    rSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxBelow, false, 64.f, 16.f);
+    rSlider.setRange(0.f, 10.f, 0.001f);
+    rSlider.addListener(this);
+    addAndMakeVisible(rSlider);
 }
 
 void PolyamoryAudioProcessorEditor::paint (Graphics& g)
@@ -68,15 +94,22 @@ void PolyamoryAudioProcessorEditor::paint (Graphics& g)
 
 void PolyamoryAudioProcessorEditor::resized()
 {
+    // Oscillators
     for (int osc = 0; osc < NUM_OSCS; ++osc) {
         Slider* s = (Slider*) &(oscSliders[osc]);
         for (int slider = 0; slider < NUM_OSC_SLIDERS; ++slider, ++s) {
-            s->setBounds(16 + (96 * slider), 32 + (64 * osc), 96, 64);
+            s->setBounds(16 + (86 * slider), 32 + (64 * osc), 86, 64);
         }
     }
     for (int label = 0; label < NUM_OSC_SLIDERS; ++label) {
-        sliderLabels[label].setBounds(16 + (96 * label), 8, 96, 24);
+        sliderLabels[label].setBounds(16 + (86 * label), 8, 86, 24);
     }
+    
+    // Master
+    rSlider.setBounds(1600 - 16 - 86,           32, 86, 64);
+    sSlider.setBounds(1600 - 16 - (86 * 2),     32, 86, 64);
+    dSlider.setBounds(1600 - 16 - (86 * 3),     32, 86, 64);
+    aSlider.setBounds(1600 - 16 - (86 * 4),     32, 86, 64);
 }
 
 void PolyamoryAudioProcessorEditor::sliderValueChanged (Slider* slider)
@@ -145,5 +178,45 @@ void PolyamoryAudioProcessorEditor::sliderValueChanged (Slider* slider)
     }
     else if (slider == (&(oscSliders[3].rSlopeSlider))) {
         processor.setOscRslope(3, slider->getValue());
+    }
+    // Oscillator left curve
+    else if (slider == (&(oscSliders[0].lCurveSlider))) {
+        processor.setOscLcurve(0, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[1].lCurveSlider))) {
+        processor.setOscLcurve(1, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[2].lCurveSlider))) {
+        processor.setOscLcurve(2, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[3].lCurveSlider))) {
+        processor.setOscLcurve(3, slider->getValue());
+    }
+    // Oscillator right curve
+    else if (slider == (&(oscSliders[0].rCurveSlider))) {
+        processor.setOscRcurve(0, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[1].rCurveSlider))) {
+        processor.setOscRcurve(1, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[2].rCurveSlider))) {
+        processor.setOscRcurve(2, slider->getValue());
+    }
+    else if (slider == (&(oscSliders[3].rCurveSlider))) {
+        processor.setOscRcurve(3, slider->getValue());
+    }
+    
+    // Master ADSR
+    else if (slider == &aSlider) {
+        processor.setA(slider->getValue());
+    }
+    else if (slider == &dSlider) {
+        processor.setD(slider->getValue());
+    }
+    else if (slider == &sSlider) {
+        processor.setS(slider->getValue());
+    }
+    else if (slider == &rSlider) {
+        processor.setR(slider->getValue());
     }
 }

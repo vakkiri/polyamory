@@ -55,5 +55,10 @@ private:
     
     OscSlider   oscSliders[NUM_OSCS];
     Label       sliderLabels[NUM_OSC_SLIDERS];
+    Slider      aSlider;
+    Slider      dSlider;
+    Slider      sSlider;
+    Slider      rSlider;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PolyamoryAudioProcessorEditor)
 };

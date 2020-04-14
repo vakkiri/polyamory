@@ -55,7 +55,7 @@ void PAAdsr::update() {
             time += 1;
         }
         else {
-            time = d;
+            time = D;
         }
     }
     else if (state == PA_RELEASE) {
@@ -76,7 +76,7 @@ float PAAdsr::val() {
             out = time / A;
             break;
         case PA_SUSTAIN:
-            out = 1.f - ((1.f - s) * D);
+            out = 1.f - ((1.f - s) * (time / D));
             break;
         case PA_RELEASE:
             out = s * ((R - time) / R);
