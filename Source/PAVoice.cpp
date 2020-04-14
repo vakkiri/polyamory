@@ -59,28 +59,29 @@ void PAVoice::controllerMoved(int controllerNumber, int newControllerValue) {
 
 void PAVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples) {
     float val;
+    float oscval;
     
     for (int sample = 0; sample < numSamples; ++sample) {
         val = 0;
         
         //sum samples from each oscillator
-
         for (PAOscillator* osc : oscs) {
-            val += waveGen->getSample(  osc->getPos(), 
+            oscval = waveGen->getSample(  osc->getPos(), 
                                         osc->getCenter(), 
                                         osc->getLslope(), 
                                         osc->getRslope(), 
                                         osc->getLcurve(), 
                                         osc->getRcurve(), 
                                         osc->getNoise());
-            val *= osc->getLevel();
-        } 
-            
+            oscval *= osc->getLevel();
+            val += oscval;
+        }                           
+                                        
         //divide by the number of oscs so no values exceed the min or max (-1, 1)
         //TODO: could optionally provide saturation for high values instead
         if (oscs.size() > 0)
             val /= (float) oscs.size();
-        
+            
         val *= VOICE_GAIN;
         
         for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
@@ -113,3 +114,40 @@ void PAVoice::perSampleUpdate() {
            clearCurrentNote();
     }
 }
+
+void PAVoice::setOscCenter(int osc, float val) {
+    oscs[osc]->setCenter(val);
+}
+
+void PAVoice::setOscFreq(int osc, float val) {
+    oscs[osc]->setFreq(val);
+}
+
+void PAVoice::setOscPitch(int osc, float val) {
+    oscs[osc]->setPitch(val);
+}
+
+void PAVoice::setOscLslope(int osc, float val) {
+    oscs[osc]->setLslope(val);
+}
+
+void PAVoice::setOscRslope(int osc, float val) {
+    oscs[osc]->setRslope(val);
+}
+
+void PAVoice::setOscLcurve(int osc, float val) {
+    oscs[osc]->setLcurve(val);
+}
+
+void PAVoice::setOscRcurve(int osc, float val) {
+    oscs[osc]->setRcurve(val);
+}
+
+void PAVoice::setOscLevel(int osc, float val) {
+    oscs[osc]->setLevel(val);
+}
+
+void PAVoice::setOscNoise(int osc, float val) {
+    oscs[osc]->setNoise(val);
+}
+        

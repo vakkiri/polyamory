@@ -20,8 +20,8 @@
 PAAdsr::PAAdsr() {
     time = 0;
     state = PA_VOICEOFF;
-    a = 0.f;
-    d = 0.f;
+    a = 0.1f;
+    d = 0.5f;
     s = 1.f;
     r = 4.f;
 }

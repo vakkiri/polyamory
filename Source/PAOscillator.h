@@ -21,6 +21,7 @@ class PAOscillator {
         void setNoise(float n)  {noise = n;}
         void setLevel(float l)  {level = l;}
         void setPitch(float p)  {pitch = p;}
+        void setFreq(float f)   {freq = f;}
         float getCenter()       {return center;}
         float getLslope()       {return lslope;}
         float getRslope()       {return rslope;}
@@ -29,9 +30,10 @@ class PAOscillator {
         float getNoise()        {return noise;}
         float getLevel()        {return level;}
         float getPitch()        {return pitch;}
+        float getFreq()         {return freq;}
         float getPos()          {return wavePos;}
         
-        void update(float freq);
+        void update(float basefreq);
     private:
         float center;
         float lslope;
@@ -41,5 +43,6 @@ class PAOscillator {
         float noise;
         float level;
         float pitch;
+        float freq;
         float wavePos;
 };

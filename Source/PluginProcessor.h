@@ -14,6 +14,7 @@
 #include <vector>
 
 class PAVoice;
+class POscillator;
 
 //==============================================================================
 /**
@@ -58,10 +59,21 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //==============================================================================
+    void setOscCenter(int osc, float val);
+    void setOscFreq(int osc, float val);
+    void setOscPitch(int osc, float val);
+    void setOscLslope(int osc, float val);
+    void setOscRslope(int osc, float val);
+    void setOscLcurve(int osc, float val);
+    void setOscRcurve(int osc, float val);
+    void setOscLevel(int osc, float val);
+    void setOscNoise(int osc, float val);
 private:
     //==============================================================================
-    Synthesiser             synth;
-    std::vector<PAVoice*>   voices;
+    Synthesiser                 synth;
+    std::vector<PAVoice*>       voices;
+    //std::vector<PAOscillator*>  oscs;   // TODO: use these instead of having per voice oscs
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PolyamoryAudioProcessor)
 };

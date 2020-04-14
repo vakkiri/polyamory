@@ -193,6 +193,53 @@ void PolyamoryAudioProcessor::setStateInformation (const void* data, int sizeInB
     // whose contents will have been created by the getStateInformation() call.
 }
 
+void PolyamoryAudioProcessor::setOscFreq(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscFreq(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscCenter(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscCenter(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscPitch(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscPitch(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscLslope(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscLslope(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscRslope(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscRslope(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscLcurve(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscLcurve(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscRcurve(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscRcurve(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscLevel(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscLevel(osc, val);
+}
+
+void PolyamoryAudioProcessor::setOscNoise(int osc, float val) {
+    for (auto voice : voices)
+        voice->setOscNoise(osc, val);
+}
+        
+
+    
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()

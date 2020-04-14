@@ -14,7 +14,7 @@
 #define SAMPLE_RATE     gloSampleRate
 
 #define NUM_OSCS        4
-#define NUM_VOICES      16
+#define NUM_VOICES      8
 
 #define VOICE_GAIN      0.3
 

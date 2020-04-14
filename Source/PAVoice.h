@@ -27,6 +27,16 @@ class PAVoice : public SynthesiserVoice {
         virtual void pitchWheelMoved(int newPitchWheelValue);
         virtual void controllerMoved(int controllerNumber, int newControllerValue);
         virtual void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples);
+        
+        void setOscCenter(int osc, float val);
+        void setOscFreq(int osc, float val);
+        void setOscPitch(int osc, float val);
+        void setOscLslope(int osc, float val);
+        void setOscRslope(int osc, float val);
+        void setOscLcurve(int osc, float val);
+        void setOscRcurve(int osc, float val);
+        void setOscLevel(int osc, float val);
+        void setOscNoise(int osc, float val);
     protected: 
         virtual void perSampleUpdate();
         
